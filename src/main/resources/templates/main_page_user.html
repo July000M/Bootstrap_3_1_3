@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About user</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+          integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+          crossorigin="anonymous"></script>
+</head>
+<body>
+<!--Верхняя панель (выход, почта и роли юзера) -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <p class="text-white bg-dark">
+        <span id="userLogin"> [[${#request.userPrincipal.principal.fullName}]] with roles:
+        <span id="userRole">
+          <td th:text="${#strings.substring(user.getRoles(),1, #strings.length(user.getRoles())-1)}">Roles</td> </span>
+        </span>
+      <p/>
+    </div>
+    <ul class="nav justify-content-end">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="/logout">Logout</a>
+      </li>
+    </ul>
+  </div>
+  </div>
+</nav>
+<!--Левая боковая панель (админ,юзер)-->
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-white sidebar collapse">
+      <div class="sidebar-sticky pt-3">
+        <ul class="nav flex-column nav-pills ">
+          <div sec:authorize="hasAuthority('ADMIN')">
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">
+                Admin
+              </a>
+            </li>
+          </div>
+          <li class="nav-item">
+            <a class="nav-link active" href="user">
+              User
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!--Таблица с юзером в системе -->
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 bg-light text-dark">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ">
+        <h1 class="h2">User information page</h1>
+      </div>
+      <table class="table table-responsive-lg border">
+        <thead>
+        <tr>
+          <th scope="col">About User</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="bg-white">
+          <td>
+            <div class="table-responsive">
+              <table class="table table-striped bg-white table-lg">
+                <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Surname</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td th:text="${user.getId()}">VALUE</td>
+                  <td th:utext="${user.getName()}">VALUE</td>
+                  <td th:utext="${user.getSurname()}">VALUE</td>
+                  <td th:utext="${user.getEmail()}"></td>
+                  <td th:text="${#strings.substring(user.getRoles(),1, #strings.length(user.getRoles())-1)}">Roles</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </main>
+  </div>
+</div>
+</body>
+</html>
