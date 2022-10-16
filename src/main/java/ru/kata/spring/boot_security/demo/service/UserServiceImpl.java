@@ -50,11 +50,7 @@ public class UserServiceImpl implements UserService {
         usersRepository.save(user);
     }
 
-    private void encodePassword(User user) {
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-    }
-
+    @Override
     public List<Role> getListRoles() {
         return roleRepository.findAll();
     }
@@ -69,6 +65,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(int id) {
         usersRepository.deleteById(id);
+    }
+
+    private void encodePassword(User user) {
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
     }
 
 }
